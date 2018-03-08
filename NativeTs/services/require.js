@@ -28,13 +28,6 @@ var nano;
     // E.g. "./app" will resolve to "https://my-app.com/app.js".
     const relativeElement = document.createElement("a");
     function getCacheBustedUrl(relative) {
-        // Determine cache busting version.
-        let version = localStorage.getItem("version");
-        if (!version) {
-            // Because this is the first time we are loading the app, it can't be cached, so we can use any version number.
-            // In this case we use milliseconds elapsed between 1970-1-1 and now.
-            version = (new Date()).getTime().toString();
-        }
         const relativeAfterSlashStrip = (relative[0] === "/") ? relative.substring(1) : relative;
         // Split url into folder and filename, so we can inject cache busting version.
         const startsWithADot = (relativeAfterSlashStrip[0] === ".");
@@ -45,7 +38,13 @@ var nano;
         const filename = constainsSlash ? relativeAfterNodeCheck.substring(lastIndexOfSlash + 1) : relativeAfterNodeCheck;
         const rawFolder = constainsSlash ? relativeAfterNodeCheck.substring(0, lastIndexOfSlash) : "/";
         const folder = (rawFolder[0] === "/") ? rawFolder.substring(1) : rawFolder;
-        const cacheBustedUrl = folder + "/v-" + version + "/" + filename;
+        // Determine cache busted url.
+        let version = localStorage.getItem("version") || "";
+        if (version) {
+            version = `./v-${version}/`;
+        }
+        const cacheBustedUrl = `${version}${folder}/${filename}`;
+        // Should always return an url that starts with "./".
         return cacheBustedUrl;
     }
     // Loads the given module and all of it dependencies, recursively

@@ -4,8 +4,13 @@ import * as fs from "fs";
 import * as path from "path";
 import * as livereload from "livereload";
 
+/**
+ * Notes
+ * Only files in or below the folder containing this file, can be served, because the current implementation, resolves filepaths against the location of this file.
+ * The url "http://127.0.0.1:8125/index.html" will resolve to a file in the same folder as this server.ts file.
+ * The url "http://127.0.0.1:8125/services/require.js" will resolve to a "require.js" file in a subfolder "services" of the folder containing this file.
+ */
 const currentFolder = __dirname;
-const currentFile = __filename;
 
 http.createServer(function handleRequest(request, response) {
     let url = request.url || "/";
