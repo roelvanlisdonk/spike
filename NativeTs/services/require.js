@@ -39,11 +39,11 @@ var nano;
         const rawFolder = constainsSlash ? relativeAfterNodeCheck.substring(0, lastIndexOfSlash) : "/";
         const folder = (rawFolder[0] === "/") ? rawFolder.substring(1) : rawFolder;
         // Determine cache busted url.
-        let version = localStorage.getItem("version") || "";
-        if (version) {
-            version = `./v-${version}/`;
+        let cachebustingToken = localStorage.getItem("version") || "";
+        if (cachebustingToken) {
+            cachebustingToken = `./v-${cachebustingToken}/`;
         }
-        const cacheBustedUrl = `${version}${folder}/${filename}`;
+        const cacheBustedUrl = `${cachebustingToken}${folder}/${filename}`;
         // Should always return an url that starts with "./".
         return cacheBustedUrl;
     }
@@ -166,7 +166,11 @@ var nano;
             // - module:
             // Then execute this function.
             console.log(`Evaluating module [${baseOrModule.l}].`);
-            (baseOrModule.f || globalEval("(function(require, " + "exports" + ", module){" + baseOrModule.t + "\n})//# sourceURL=" + baseOrModule.l))(
+            // To make debugging of TypeScript files or minified JavaScript files possible, we must add special comments at te bottom of the module text.
+            let moduleText = "(function(require, " + "exports" + ", module){" + baseOrModule.t + "\n})";
+            moduleText += "\n//# sourceURL=" + baseOrModule.l;
+            moduleText += "\n//# sourceMappingURL=" + baseOrModule.l + ".map";
+            (baseOrModule.f || globalEval(moduleText))(
             // The require function will be called by a module to load dependencies.
             // Parameter "path", will be the unresolved path to a dependent module.s
             function require(path) {
