@@ -31,7 +31,10 @@ const pageHeader: CssRule = {
 };
 addCssRule(pageHeader);
 
-export function endlessScroll(records: IRecord): string 
+/**
+ * Should only return HTML and subscribe to an afterRender event, so DOM eventhandlers can be added after the html is rendered.
+ */
+export function endlessScroll(records: IRecord[]): string 
 {
     const cid = instances += 1;
 
@@ -41,8 +44,18 @@ export function endlessScroll(records: IRecord): string
     }
 
     const result = `<${name} data-cid="${cid}">${childs}</${name}>`;
+    
+    // afterRender(name, cid, init, records);
 
     return result;
+}
+
+/**
+ * This function will be called after rendering of the "endless-scroll" html.
+ * 
+ */
+export function init(element: HTMLElement, records: IRecord[]) {
+
 }
 
 export interface IRecord

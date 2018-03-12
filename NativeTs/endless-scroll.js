@@ -26,6 +26,9 @@ const pageHeader = {
     }
 };
 stylesheet_1.addCssRule(pageHeader);
+/**
+ * Should only return HTML and subscribe to an afterRender event, so DOM eventhandlers can be added after the html is rendered.
+ */
 function endlessScroll(records) {
     const cid = instances += 1;
     let childs = "";
@@ -33,7 +36,15 @@ function endlessScroll(records) {
         childs += `<div>Dit is element ${i}</div>\n`;
     }
     const result = `<${name} data-cid="${cid}">${childs}</${name}>`;
+    // afterRender(name, cid, init, records);
     return result;
 }
 exports.endlessScroll = endlessScroll;
+/**
+ * This function will be called after rendering of the "endless-scroll" html.
+ *
+ */
+function init(element, records) {
+}
+exports.init = init;
 //# sourceMappingURL=endless-scroll.js.map
