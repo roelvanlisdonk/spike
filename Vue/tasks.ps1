@@ -24,3 +24,11 @@ git reset --hard
 # Controleer of er wijzigingen zijn in de huidige branch.
 Set-Location "C:\Projects\spike\Vue"
 git status
+
+# Sync
+Set-Location "C:\Projects\spike\Vue"
+git fetch --all
+git checkout "master"
+git clean -f
+git pull
+git push
