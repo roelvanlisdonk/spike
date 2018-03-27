@@ -11,24 +11,20 @@ npm i -g npm
 Set-Location "C:\Projects\spike\Vue"
 git status
 
-# Veranderingen opslaan
+# Veranderingen ongedaan maken
+git reset --hard
+
+# Veranderingen opslaan in master
+Set-Location "C:\Projects\spike\Vue"
+git fetch --all
 git add --all
 git commit -m "Kleine aanpassing aan devops scripts"
 git pull
 git push
-git status
 
-# Veranderingen ongedaan maken
-git reset --hard
-
-# Controleer of er wijzigingen zijn in de huidige branch.
-Set-Location "C:\Projects\spike\Vue"
-git status
-
-# Sync
+# Sync 
 Set-Location "C:\Projects\spike\Vue"
 git fetch --all
-git checkout "master"
 git clean -f
 git pull
 git push
